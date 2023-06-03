@@ -33,7 +33,7 @@ public class ValidateISBN {
 			}
 		}
 
-		return total % SHORT_ISBN_MULTIPLIER == 0 ? true : false;
+		return total % SHORT_ISBN_MULTIPLIER == 0;
 	}
 
 	private boolean isThisAValidLongISBN(String isbn, int total) {
@@ -45,6 +45,6 @@ public class ValidateISBN {
 			}
 		}
 		
-		return total % LONG_ISBN_MULTIPLIER == 0 ? true : false;
+		return total % LONG_ISBN_MULTIPLIER == 0;
 	}
 }
