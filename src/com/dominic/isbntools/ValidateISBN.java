@@ -2,6 +2,8 @@ package com.dominic.isbntools;
 
 public class ValidateISBN {
 
+	private static final int LONG_ISBN_MULTIPLIER = 10;
+	private static final int SHORT_ISBN_MULTIPLIER = 11;
 	private static final int SHORT_ISBN_LENGTH = 10;
 	private static final int LONG_ISBN_LENGTH = 13;
 
@@ -9,16 +11,16 @@ public class ValidateISBN {
 		int total = 0;
 		
 		if (isbn.length() == LONG_ISBN_LENGTH) {
-			return isTHisAValid13DigitISBN(isbn, total);
+			return isThisAValidLongISBN(isbn, total);
 		} else {
 			if (isbn.length() != SHORT_ISBN_LENGTH)
 				throw new NumberFormatException("ISBN numbers must be 10 digits long");
 
-			return isThisAValid10DigitISBN(isbn, total);
+			return isThisAValidShortISBN(isbn, total);
 		}
 	}
 
-	private boolean isThisAValid10DigitISBN(String isbn, int total) {
+	private boolean isThisAValidShortISBN(String isbn, int total) {
 		for (int i = 0; i < SHORT_ISBN_LENGTH; i++) {
 			if (!Character.isDigit(isbn.charAt(i))) {
 				if (i == 9 && isbn.charAt(i) == 'X') {
@@ -31,10 +33,10 @@ public class ValidateISBN {
 			}
 		}
 
-		return total % 11 == 0 ? true : false;
+		return total % SHORT_ISBN_MULTIPLIER == 0 ? true : false;
 	}
 
-	private boolean isTHisAValid13DigitISBN(String isbn, int total) {
+	private boolean isThisAValidLongISBN(String isbn, int total) {
 		for (int i = 0; i < LONG_ISBN_LENGTH; i++) {
 			if (i % 2 == 0) {
 				total += Character.getNumericValue(isbn.charAt(i));
@@ -43,6 +45,6 @@ public class ValidateISBN {
 			}
 		}
 		
-		return total % 10 == 0 ? true : false;
+		return total % LONG_ISBN_MULTIPLIER == 0 ? true : false;
 	}
 }
