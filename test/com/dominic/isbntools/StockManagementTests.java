@@ -8,23 +8,12 @@ import org.junit.jupiter.api.Test;
 class StockManagementTests {
 
 	@Test
-	void testCanGetACorrectLocatorCode() {
+	void testCanGetACorrectLocatorCode() {		
+		ExternalISBNDataService testWebService = mock(ExternalISBNDataService.class);
+		when(testWebService.lookup(anyString())).thenReturn(new Book("0140177396", "Of Mice And Men", "J. Steinbeck"));
 		
-		ExternalISBNDataService testWebService = new ExternalISBNDataService() {
-			
-			@Override
-			public Book lookup(String isbn) {
-				return new Book(isbn, "Of Mice And Men", "J. Steinbeck");
-			}
-		};
-		
-		ExternalISBNDataService testDatabaseService = new ExternalISBNDataService() {
-			
-			@Override
-			public Book lookup(String isbn) {
-				return null;
-			}
-		};
+		ExternalISBNDataService testDatabaseService = mock(ExternalISBNDataService.class);
+		when(testDatabaseService.lookup(anyString())).thenReturn(null);
 		
 		StockManager stockManager = new StockManager();
 		stockManager.setWebService(testWebService);
